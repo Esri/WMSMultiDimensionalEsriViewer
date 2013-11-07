@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>
+</title>
+<link rel="stylesheet" href="http://js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css">    
+<link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css">
+<!--link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Nunito"-->
+<!--link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.6/js/esri/css/esri.css" /-->
+<!--link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css"-->
+<link rel="stylesheet" type="text/css" href="css/layout.css">
+<link rel="stylesheet" type="text/css" href="css/chromepopup.css">
+
+<script type="text/javascript">
+  var dojoConfig = {
+    parseOnLoad: true,
+	packages:[
+	 {name:"esriTemplate",location:location.pathname.replace(/\/[^/]+$/, '')}
+	]
+  };
+</script>
+
+<script type="text/javascript" src="http://js.arcgis.com/3.7/init.js"></script>
+<!--script type="text/javascript" src="http://js.arcgis.com/3.7/"></script-->
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script type="text/javascript">
+dojo.require("dijit.dijit"); // optimize: load dijit layer
+dojo.require("dijit.layout.BorderContainer");
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.StackContainer");
+dojo.requireLocalization("esriTemplate","template");
+</script>
+
+<script src="javascript/config.js" type="text/javascript"></script>
+<script type="text/javascript" src="javascript/layout.js">
+</script>
+
+<script type="text/javascript" src="javascript/eventSlider.js"></script>
+<script type="text/javascript" src="javascript/nDimSlider.js"></script>
+<script type="text/javascript" src="javascript/WMSLayerWithTime.js"></script>
+
+<script type="text/javascript">      
+var configOptions;
+
+function init(){
+
+configOptions = {
+  //The ID for the map from ArcGIS.com
+  webmap : "56106bdcd93d4c9ab0de78d0c8cdaabd",
+  //Enter a title, if no title is specified, the webmap's title is used.
+  title : "",
+  //Enter a subtitle, if not specified the ArcGIS.com web map's summary is used
+  subtitle : "",
+  //If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
+  bingmapskey : "",
+  //specify a proxy url if needed
+  proxyurl:"",
+  //specify the url to a geometry service 
+  geometryserviceurl:"http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+ //Modify this to point to your sharing service URL if you are using the portal
+  sharingurl : "http://www.arcgis.com/sharing/content/items"
+};
+
+ initMap();
+
+}
+//show map on load 
+dojo.addOnLoad(init);
+</script>
+</head>
+
+<body onResize="resetLayout()" class="claro">
+<div id="mainWindow" data-dojo-type="dijit.layout.BorderContainer"  data-dojo-props='design:"headline",gutters:false' style="width:100%; height:100%;">
+
+<!-- Header Section-->
+<div id="header" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top"'>
+  <div id="title">NetCDF WMS with n Dimensions
+  </div>
+  <div id="subtitle">This example shows the new capability within 10.2.1 to serve out a netCDF file as a WMS with time and an n dimension such as depth
+  </div>
+<div id="header_flourish"></div>
+
+</div>
+
+<!-- Map Section -->
+<div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"' style='padding:0px'>
+    	    
+	<div style="position:absolute; right:20px; top:15px; z-Index:997;">
+          <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Animation', closable:false,  open:false" onShow="animationShow()" onHide="animationHide()">
+            <div data-dojo-type="dijit/layout/ContentPane" style="width:250px; height:30px; overflow:auto;">
+            	<button id="animPlayBtn" style="margin: -2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationPlay();" ><img src="./images/Button-Play-16.png"/></button>
+            	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animPlayBtn'">Animate</span></div>
+            	<button id="animBackwordBtn" style="margin: 2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoBackward();" ><img src="./images/Button-Prev-16.png"/></button>
+            	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animBackwordBtn'">Previous Event</span></div>
+            	<!--button id="animBackwordBtn" style="margin: 2px;width: 30px;height: 28px;background:url(./images/Button-Previous-25.png) no-repeat;"></button-->
+            	<label id="animationDateTimeLabel">Thu Dec 31 2009</label>
+            	<button id="animForwardBtn" style="margin: 2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoForward();" ><img src="./images/Button-Next-16.png"/></button>
+            	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animForwardBtn'">Next Event</span></div>
+        	</div>
+          </div>
+    </div>
+    <div id="leftChart" style="position:absolute;z-Index:995;visibility: hidden"  data-dojo-type="dijit.layout.ContentPane">    
+		<div id="elevationSliderPanel" style="padding: 0px" class="panel_content" data-dojo-type="dijit.layout.ContentPane">
+			
+		</div>
+	</div>
+	
+    <div id="footer" style="position:absolute;z-Index:995;bottom:0px;width: 100%;visibility: hidden"  data-dojo-type="dijit.layout.ContentPane">    
+		<div id="timeSliderFooter" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom"'>
+			<div id="eventSliderPanel" class="panel_content" data-dojo-type="dijit.layout.ContentPane">
+		</div>
+	</div>
+</div>
+
+    <!--Loading Panel-->
+    <div id="splashCon">
+		<div id="splashDialog">
+			<form name='addWMSForm' id='uploadZipForm' enctype='multipart/form-data' method='post'>
+				<div id="splashHeader">Add WMS Service</div>
+				<div id="splashLabel" style="margin: 7px; text-align:justify">This application will let you load and view Multi-Dimensional WMS.  The WMS must have at least one layer with dimensions.</div>
+			    <div id="helpInfo" style="margin: 7px; text-align:left;">For more information please view our <a id='helpURL' href="http://www.esri.com">help</a>.</div>			    
+			    <input id='wmsTextInput' type="text" style="width: 95%" name="wmsTextInput" value="http://ec2-23-20-2-145.compute-1.amazonaws.com:6080/arcgis/services/netCDF/WaterTempMultiDim/MapServer/WMSServer">
+			    <button type='button' onclick="loadWMS()" style="margin:7px;">Load WMS Layers</button>
+			    <div id='layerSelector'  style="visibility: hidden">
+			   		<div id='radioButtonGroup' align="left" style="margin:5px 30px 5px 110px;max-height:150px;overflow:auto;"></div>
+			    	<button type='button' onclick="addWMSLayer()" style="margin:7px;">Add Layer</button>
+			    </div>
+			</form>
+	    </div>
+	  </div>
+
+</body>
+
+</html>
