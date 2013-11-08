@@ -163,6 +163,7 @@ function addWMSLayer()
     	}
     
     	var timeValues = wmsLayer.getDimensionValues(timeDim);
+    	eventSliderOb.setTimeField(timeDim);
     	eventSliderOb.setTimeSlices(timeValues);
     	eventSliderOb.generateChart();
     	

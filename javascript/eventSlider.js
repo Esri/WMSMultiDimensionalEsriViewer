@@ -9,11 +9,17 @@ var valueField = "value";
 var timeField = "time";
 var actValueField = "actvalue";
 
+/**
+ *Class Name: EventSlider
+ * Description: Is like a time-slider except each event/time slice is represented as an individual point.
+ * This supports time slices that are not at equal intervals 
+ */
 function EventSlider() {
 	
 	//Methods
 	this.setTimeSlices = d3SetTimeSlices;
 	this.generateChart = d3CreateEventSlider;
+	this.setTimeField = eventSliderSetTimeField;
 	
 	//this.setTimeSliderDateLabel = d3SetTimeSliderDateLabel;
 	//this.getTimeSliderDateLabel = d3GetTimeSliderDateLabel;
@@ -27,6 +33,7 @@ function EventSlider() {
 	this.playButtonClicked = eventSliderPlayButtonClicked;
 	this.selectNewTimeStep = eventSliderSelectTimeStep;
 	this.updateChartSize = d3UpdateChartSize;
+	
 	
 	
 	var myVar=setInterval(function(){myTimer();},3000);
@@ -59,6 +66,14 @@ function eventSliderGetDateTimeInitialValue()
 	return currentDateTimeString;
 }
 
+/**
+ *Sets the time dimension field 
+ */
+function eventSliderSetTimeField(value)
+{
+	timeField = value;
+}
+
 
 function d3SetTimeSlices(timeValues)
 {
@@ -66,7 +81,7 @@ function d3SetTimeSlices(timeValues)
 	for (index=0;index <  timeValues.length;index++)
 	{
 		var ob = [];
-		var timeString = timeValues[index];
+		var timeString = timeValues[index].trim();
 		var dateTimeNum = Date.parse(timeString);
 		var dateTime = new Date(dateTimeNum);
 		
@@ -302,8 +317,8 @@ function eventSliderSelectTimeStep(dateTime)
 			
 			var chartStringValue = chartDotCircle.__data__.attributes[actValueField];
 
-			//TODO: Use Dimension Name instead of date
-			var chartingDateLabel = "Date" + ": " + chartStringValue; 
+			//Use Dimension Name
+			var chartingDateLabel = timeField + ": " + chartStringValue; 
 	
 			var textAll = svg.selectAll("#Title");
 			textAll[0][0].textContent = chartingDateLabel;		
