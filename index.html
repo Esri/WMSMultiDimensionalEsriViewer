@@ -75,8 +75,8 @@ dojo.addOnLoad(init);
 
 <!-- Map Section -->
 <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"' style='padding:0px'>
-    	    
-	<div style="position:absolute; right:20px; top:15px; z-Index:997;">
+    <div id="BasemapToggle"></div>	    
+	<div style="position:absolute; right:110px; top:20px; z-Index:997;">
           <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Animation', closable:false,  open:false" onShow="animationShow()" onHide="animationHide()">
             <div data-dojo-type="dijit/layout/ContentPane" style="width:250px; height:30px; overflow:auto;">
             	<button id="animPlayBtn" style="margin: -2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationPlay();" ><img src="./images/Button-Play-16.png"/></button>

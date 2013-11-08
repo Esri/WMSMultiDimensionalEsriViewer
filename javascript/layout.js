@@ -29,6 +29,20 @@ function initMap() {
       basemap: "oceans"
     });
   	});
+  	
+  	require([
+      "esri/map", 
+      "esri/dijit/BasemapToggle",
+      "dojo/domReady!"
+    ], function(
+      Map, BasemapToggle
+    ){
+	var toggle = new BasemapToggle({
+        map: map,
+        basemap: "gray"
+      }, "BasemapToggle");
+      toggle.startup();
+     });
   	      
 	//add chrome theme for popup.  
     dojo.addClass(map.infoWindow.domNode, "chrome");    

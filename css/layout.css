@@ -58,6 +58,12 @@ td {vertical-align:top;}
       border-right:solid 1px #999;
       margin:0;
     }
+    #BasemapToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+      }
     #loadingImg
     {
     	padding-top: 50px;
