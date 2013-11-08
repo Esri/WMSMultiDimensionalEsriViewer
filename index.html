@@ -14,10 +14,7 @@
 
 <script type="text/javascript">
   var dojoConfig = {
-    parseOnLoad: true,
-	packages:[
-	 {name:"esriTemplate",location:location.pathname.replace(/\/[^/]+$/, '')}
-	]
+    parseOnLoad: true
   };
 </script>
 
@@ -31,7 +28,6 @@ dojo.require("dijit.dijit"); // optimize: load dijit layer
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.layout.StackContainer");
-dojo.requireLocalization("esriTemplate","template");
 </script>
 
 <script src="javascript/config.js" type="text/javascript"></script>
@@ -42,27 +38,20 @@ dojo.requireLocalization("esriTemplate","template");
 <script type="text/javascript" src="javascript/nDimSlider.js"></script>
 <script type="text/javascript" src="javascript/WMSLayerWithTime.js"></script>
 
-<script type="text/javascript">      
-var configOptions;
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-45564488-1', 'esri.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">     
+ 
 function init(){
-
-configOptions = {
-  //The ID for the map from ArcGIS.com
-  webmap : "56106bdcd93d4c9ab0de78d0c8cdaabd",
-  //Enter a title, if no title is specified, the webmap's title is used.
-  title : "",
-  //Enter a subtitle, if not specified the ArcGIS.com web map's summary is used
-  subtitle : "",
-  //If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
-  bingmapskey : "",
-  //specify a proxy url if needed
-  proxyurl:"",
-  //specify the url to a geometry service 
-  geometryserviceurl:"http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
- //Modify this to point to your sharing service URL if you are using the portal
-  sharingurl : "http://www.arcgis.com/sharing/content/items"
-};
 
  initMap();
 

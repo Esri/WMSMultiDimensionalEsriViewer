@@ -3,116 +3,45 @@ dojo.require('esri.dijit.Attribution');
 dojo.require("esri.arcgis.utils");
 dojo.require("esri.dijit.Scalebar");
 dojo.require("esri.dijit.BasemapGallery");
-dojo.require("esri.geometry");
-dojo.require("esri.geometry.Point");
-dojo.require("esri.tasks.geometry");
 dojo.require("esri.layers.DynamicMapServiceLayer");
 dojo.require("dojo/json");
 
-
-  var map, urlObject, tb;
-  var timeSlider;
-  var timeProperties = null;
-  var i18n;
-  var returnTable = null;
-  var transectFeatures = null;
-  var mode = "PointMode";
-  var esriMapOb = null;
+//GLOBALS
+  var map;
   var eventSliderOb = null;
-  var eventSliderTimeChartOb = null;
-  var netCDFGPQueryOb = null;
   var dimSliderOb = null;
   var wmsLayer = null;
   var timeDim = '';
   var nDim = '';
     
-  
-   function initMap() {
+/**
+ *Fires off when the web pages is loaded 
+ */  
+function initMap() {
    	
-   	
-     //get the localization strings
-  	 i18n = dojo.i18n.getLocalization("esriTemplate","template"); 
-       
-      
-      //read the legend header text from the localized strings file 
-      //dojo.byId('legendHeader').innerHTML = i18n.tools.legend.label;
-
-      
-      if(configOptions.geometryserviceurl && location.protocol === "https:"){
-        configOptions.geometryserviceurl = configOptions.geometryserviceurl.replace('http:','https:');
-      }
-      esri.config.defaults.geometryService = new esri.tasks.GeometryService(configOptions.geometryserviceurl);  
-
-
-      if(!configOptions.sharingurl){
-        configOptions.sharingurl = location.protocol + '//' + location.host + "/sharing/content/items";
-      }
-      esri.arcgis.utils.arcgisUrl = configOptions.sharingurl;
-       
-      if(!configOptions.proxyurl){   
-        configOptions.proxyurl = location.protocol + '//' + location.host + "/sharing/proxy.ashx";
-      }
-
-      esri.config.defaults.io.proxyUrl =  configOptions.proxyurl;
-
-      esri.config.defaults.io.alwaysUseProxy = false;
-      
-
-	urlObject = esri.urlToObject(document.location.href);
-	urlObject.query = urlObject.query || {};
-	config = utils.applyOptions(config, urlObject.query);
-
-	if(urlObject.query.appid)
-	{		
-		appRequest = esri.arcgis.utils.getItem(config.appid);
-
-		//getItem provides a deferred object; set onAppData to load when the request completes
-		appRequest.then(onAppData);
-	}
-	else
-	{
-		setUpMap();
-	}        
-}
-    
-function onAppData (result) {
-
-		//The configuration properties are stored in the itemData.values property of the result
-		//Update the config variable
-		config = utils.applyOptions(config, result.itemData.values);
-		//Apply any UI changes
-		
-		console.log(result.itemData.values);
-		
-		
-		setUpMap();
-}
-
-function setUpMap() {
-	
-  require(["esri/map", "dojo/domReady!"], function(Map) { 
+    esri.config.defaults.io.proxyUrl =  location.protocol + '//' + location.host + "/sharing/proxy.ashx";
+    esri.config.defaults.io.alwaysUseProxy = false;
+      	
+  	require(["esri/map", "dojo/domReady!"], function(Map) { 
     map = new Map("map", {
       center: [-56.049, 38.485],
       zoom: 3,
-      basemap: "streets"
+      basemap: "oceans"
     });
   	});
-  	  	
-  	var startTime = new Date(2013,02,18,20,0);  	
-  	var endTime = new Date(2013,02,18,23,0);  
-  	var timeExtent = new esri.TimeExtent();
-	timeExtent.startTime = startTime;
-	timeExtent.endTime = endTime;
-	map.setTimeExtent(timeExtent); 
-	    
-
-    
-	initUI();     
+  	      
+	//add chrome theme for popup.  
+    dojo.addClass(map.infoWindow.domNode, "chrome");    
 }
 
+/**
+ *Fires off when user click the load WMS button.
+ *Once clicked we parse the GetCapabilities file of the URL entered
+ * for the necessary information to use for the GetMap request
+ */
 function loadWMS(evt)
 {
-	//alert("Load WMS");
+	//Get the URL the user added to the Form within the splash screen
 	var wmsURL = document.getElementById('wmsTextInput').value;	 
 	
 	//Remove everything after the '?' mark
@@ -122,14 +51,16 @@ function loadWMS(evt)
 		wmsURL = wmsURL.substring(0,questIndex);
 		document.getElementById('wmsTextInput').value = wmsURL;
 	}
-		 
+	
+	//We use an event listener to let us know that we have querried the getcapabilities file
+	//and parsed all the necessary information out.	 
 	wmsLayer = new WMSLayerWithTime(wmsURL);
     document.addEventListener("WMSDimensionsLoaded",wmsLoaded,false);
 }
 
 /**
- *Once the WMS has been parsed and ready to load, we can add it to the map and update the
- *dimension sliders 
+ *Once the WMS has been parsed and ready to load we can let the user
+ * know which layers and dimensions can be displayed
  */
 function wmsLoaded()
 {
@@ -141,9 +72,9 @@ function wmsLoaded()
 		//Removing all old Radio Boxes
 		groupElement.innerHTML = '';
 		
+		//Adding a radio button for each layer that contains at least one dimension
 		for(layerIndex = 0; layerIndex < subLayers.length; layerIndex++)
 		{
-			
 			var layerName = subLayers[layerIndex];
 			
 			var dimensions = wmsLayer.getDimensions(layerName);
@@ -169,6 +100,7 @@ function wmsLoaded()
            }
 		}
 		
+		//Display the layerSelector
 		var layerSelecterDiv = document.getElementById('layerSelector');
 		layerSelecterDiv.style.visibility = 'visible';
 	}
@@ -178,6 +110,11 @@ function wmsLoaded()
 	}
 }
 
+/**
+ *Fired off when user clicks Add WMS Layer button  
+ * Add the selected layer to the map, then add the dimensions values
+ * to the charts
+ */
 function addWMSLayer()
 {
 	//Get Selected Layer
@@ -193,12 +130,10 @@ function addWMSLayer()
 		}
 	}
 	
+	//INitialize the WMS Layer with the default dimension values
 	wmsLayer.initializeDimensionParams(selLayer);
-	
 	map.addLayer(wmsLayer);
 	
-
-
     
     //Get Dimension Values from WMS Layer
     var dimensions = wmsLayer.getDimensions();
@@ -234,7 +169,6 @@ function addWMSLayer()
     	//Show the Event Slider.
     	var footerElem = document.getElementById('footer');
     	footerElem.style.visibility = 'visible';
-  		//domStyle.set(footerElem, 'visibility', 'visible');
     }
     
     //Only show the n Dim Slider when there is a dimension other than time
@@ -267,10 +201,8 @@ function addWMSLayer()
     
     	//Now that the application is fully loaded, we can hide the load form.
     	var spashConElem = document.getElementById('splashCon');
-    
   		domStyle.set(spashConElem, 'display', 'none');
 	});
-	//spashConElem.style.visibility = 'hidden';	
 }
 
 function resetLayout(){
@@ -300,18 +232,12 @@ var utils = {
 	}
 };	
 
-function initUI() {
-	        
-    //add chrome theme for popup
-    dojo.addClass(map.infoWindow.domNode, "chrome");   		
-  }
+
 
 function updateDimension()
 {
+	//Gets the current selected dimension value from the Dimension Slider
 	var dimensionValue = dimSliderOb.getDimensionValue();
-	//alert(dimensionValue.toString());
-	//Currently the values are converted to negative so we need to convert them back
-	//dimensionValue = dimensionValue; // * -1;
 	
 	//Update with dimension from WMS Layer
 	wmsLayer.paramsOb[nDim] = dimensionValue.toString();

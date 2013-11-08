@@ -42,15 +42,11 @@ require([
 	        	transparent:true,
 	        	format:"image/png",
 	        	bgcolor:"0x000000",
-	        	version:"1.1.1",
-	        	//layers:"0,1",
-	        	//styles: "default,default",
+	        	version:"1.1.1", 
 	        	layers:"0",
 	        	styles: "",
 	        	crs:"EPSG:3857", //This may need to be updated
-	        	exceptions: "application/vnd.ogc.se_xml"//,
-	        	//time:'1363651200000',
-	        	//dim_depth:'2'
+	        	exceptions: "application/vnd.ogc.se_xml"
 	      	};
 	      
 	      //Methods
@@ -79,7 +75,9 @@ require([
 }); 
 
 /**
- *Sets the initial dimensions to the default values represented within the get capabilities file 
+ *Sets the initial dimensions to the default values represented within the get capabilities file.
+ * Save the layername as the visible layer.  This only supports one layer being visible at a time.  
+ * @param {String} layerName 
  */
 function wmsLayerInitializeDimensions(layerName)
 {
@@ -102,7 +100,7 @@ function wmsLayerInitializeDimensions(layerName)
 }
 
 /**
- * 
+ * Gets the layer names within the WMS Service.
  */
 function wmsLayerGetSubLayers()
 {
@@ -111,6 +109,8 @@ function wmsLayerGetSubLayers()
 
 /**
  *Gets the Layer dimensions as represented within the GetMap Parameters URL 
+  * @param {String} layerName Optional: If not provided, the layer that is currently visible 
+  * is used
  */
 function wmsLayerGetDimensions(layerName)
 {
@@ -123,7 +123,8 @@ function wmsLayerGetDimensions(layerName)
 }
 /**
  *Gets an array of values of the inputted dimension.  Must use a value from GetDimesions method 
- * @param {Object} dimName 
+ * @param {String} dimName The dimension name as represented within the getcap file.
+ * @param {String} layerName Optional: If not provided, the layer that is currently visible
  */
 function wmsLayerGetDimensionValues(dimName,layerName)
 {
@@ -202,6 +203,10 @@ function getWMSDimesionDefinition(wmsURL)
 	esri.request(xhrArgs);	
 }
 
+/**
+ *Parses the DOM Node to get the dimension information for the layer 
+ * @param {Object} layerDom
+ */
 function wmsLayerCapDimensionParser(layerDom)
 {
 	var layerDimensionInfo = [];
