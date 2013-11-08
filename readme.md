@@ -18,6 +18,8 @@ Users have the ability to view each time/dimension step within a multi-dimension
 
 * [ArcGIS for JavaScript API Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
 * [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+* [What is netCDF Data] (http://resources.arcgis.com/en/help/main/10.2/index.html#/What_is_netCDF_data/004600000001000000/)
+* [ArcGIS for Desktop Multidimension Supplemental Tools] (http://blogs.esri.com/esri/arcgis/2013/05/24/introducing-the-multidimension-supplemental-tools-2/)
 
 
 ## Issues
