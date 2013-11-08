@@ -149,7 +149,7 @@ function nDimSliderCreateEventSlider()
 	.on("mouseover",nDimSliderOnMouseOver)
 	.on("mouseout",nDimSliderOnMouseOut) 
 	.append("svg:title").text(function(d) {
-		return (d[dimField]).toString();
+		return (d[dimField]).toString() + " " + units;
 	}); 
 	
 	
