@@ -7,7 +7,7 @@ such as this [one](http://ecowatch.ncddc.noaa.gov/thredds/wms/ncom_amseas_agg/Am
 
 [View it live](http://dtc-sci01.esri.com/MultiDimWMSViewer/)
 
-![App](https://raw.github.com/kevinsigwart/WMSMultiDimensionalEsriViewer/master/doc/ApplicationScreenShot.png)
+![App](https://raw.github.com/kevinsigwart/WMSMultiDimensionalEsriViewer/master/doc/nDim.gif)
 
 ## Features
 Users have the ability to view each time/dimension step within a multi-dimensional WMS Service
