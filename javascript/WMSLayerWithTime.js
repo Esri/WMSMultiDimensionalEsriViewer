@@ -211,20 +211,21 @@ function wmsLayerCapDimensionParser(layerDom)
 {
 	var layerDimensionInfo = [];
 	
-	var layerChildren = layerDom.children;
+	var layerChildren = layerDom.childNodes;
+
+	layerChildren = layerDom.childNodes;
 	for(childrenIndex = 0; childrenIndex < layerChildren.length; childrenIndex++)
 	{
-		var tagName = layerChildren[childrenIndex].tagName;
+		var tagName = layerChildren[childrenIndex].nodeName;
 		if(tagName.toLowerCase() == 'name')
 		{
 			var dimPrefix = '';
 			if(!isThreadsServer)//Threads does not implement the dim_ Prefix within WMS
 				dimPrefix = "dim_";
 				
-			layerDimensionInfo.layerName = layerChildren[childrenIndex].textContent;
+			layerDimensionInfo.layerName = layerChildren[childrenIndex].childNodes[0].textContent;
 			layerDimensionInfo.queryIndex = layerDom.attributes.queryable.textContent;;
 			layerDimensionInfo.dimensions = [];
-			                                
 			var dimensionsDom = layerDom.getElementsByTagName('Dimension');
 			
 			for(index = 0; index < dimensionsDom.length; index++)
@@ -241,9 +242,8 @@ function wmsLayerCapDimensionParser(layerDom)
 				layerDimensionInfo.dimensions[wmsDimenProp].units = dimensionsDom[index].attributes['units'].textContent;
 			}
 			
-			break; //We got this layer, time to move onto the next one
+			break;//We got this layer, time to move onto the next one
 		}
 	}
-	
 	return 	layerDimensionInfo;
 }
