@@ -213,6 +213,9 @@ function addWMSLayer()
     	var leftChartElem = document.getElementById('leftChart');
   		leftChartElem.style.visibility = 'visible';
     }
+	
+		//We want to make sure that the current time is shown
+	    updateMapTime();
     
     	//Now that the application is fully loaded, we can hide the load form.
     	var spashConElem = document.getElementById('splashCon');
@@ -269,10 +272,12 @@ function animationHide(ob)
 	//graphingWidget.style.top = '60px';
 }    
   
-  function updateAnimationWidget(dateTime)
+  function updateAnimationWidget(dateTimeStr)
   {
-	  	animationDateTimeLabel.textContent = dateTime.toDateString(); 
-		  	 	
+	  	//animationDateTimeLabel.textContent = dateTimeStr; 
+		timeLabel = document.getElementById('time');
+		timeLabel.textContent = dateTimeStr; 
+  	 	
   	 	if(eventSliderOb.isSlidersLastSpot()) 
   	 		animForwardBtn.disabled = true;
   	 	else
@@ -302,7 +307,7 @@ function animationHide(ob)
 		wmsLayer.paramsOb[timeDim] = dateTimeStr;
 		wmsLayer.refresh();
 		  	 	
-  	 	updateAnimationWidget(dateTime);
+  	 	updateAnimationWidget(dateTimeStr);
   	 }
   }
   /**

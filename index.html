@@ -75,17 +75,22 @@ dojo.addOnLoad(init);
 
 <!-- Map Section -->
 <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"' style='padding:0px'>
-    <div id="BasemapToggle"></div>	    
+    <div id="BasemapToggle"></div>	 
+
+	<div id="timePanel" class="panel_content" data-dojo-type="dijit.layout.ContentPane" style="position:absolute;left:450px; top:25px;z-Index:999;height:25px">
+		<div id="time" style="position:center; height:25px" ></div>
+	</div>
+	
 	<div style="position:absolute; right:110px; top:20px; z-Index:997;">
           <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Animation', closable:false,  open:false" onShow="animationShow()" onHide="animationHide()">
-            <div data-dojo-type="dijit/layout/ContentPane" style="width:250px; height:30px; overflow:auto;">
-            	<button id="animPlayBtn" style="margin: -2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationPlay();" ><img src="./images/Button-Play-16.png"/></button>
+            <div data-dojo-type="dijit/layout/ContentPane" style="width:100px; height:30px; overflow:auto;">
+            	<button id="animPlayBtn" style="margin: 1px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationPlay();" ><img src="./images/Button-Play-16.png"/></button>
             	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animPlayBtn'">Animate</span></div>
-            	<button id="animBackwordBtn" style="margin: 2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoBackward();" ><img src="./images/Button-Prev-16.png"/></button>
+            	<button id="animBackwordBtn" style="margin: 1px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoBackward();" ><img src="./images/Button-Prev-16.png"/></button>
             	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animBackwordBtn'">Previous Event</span></div>
             	<!--button id="animBackwordBtn" style="margin: 2px;width: 30px;height: 28px;background:url(./images/Button-Previous-25.png) no-repeat;"></button-->
-            	<label id="animationDateTimeLabel">Thu Dec 31 2009</label>
-            	<button id="animForwardBtn" style="margin: 2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoForward();" ><img src="./images/Button-Next-16.png"/></button>
+            	<!--label id="animationDateTimeLabel">Thu Dec 31 2009</label-->
+            	<button id="animForwardBtn" style="margin: -2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoForward();" ><img src="./images/Button-Next-16.png"/></button>
             	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animForwardBtn'">Next Event</span></div>
         	</div>
           </div>
@@ -109,8 +114,8 @@ dojo.addOnLoad(init);
 			<form name='addWMSForm' id='uploadZipForm' enctype='multipart/form-data' method='post'>
 				<div id="splashHeader">Add WMS Service</div>
 				<div id="splashLabel" style="margin: 7px; text-align:justify">This application will let you load and view Multi-Dimensional WMS.  The WMS must have at least one layer with dimensions.</div>
-			    <div id="helpInfo" style="margin: 7px; text-align:left;">For more information please view our <a id='helpURL' href="https://raw.github.com/kevinsigwart/WMSMultiDimensionalEsriViewer/master/doc/VisMultiDimWMS.pdf">help</a>.</div>			    
-			    <input id='wmsTextInput' type="text" style="width: 95%" name="wmsTextInput" value="http://ec2-23-20-2-145.compute-1.amazonaws.com:6080/arcgis/services/netCDF/WaterTempMultiDim/MapServer/WMSServer">
+			    <div id="helpInfo" style="margin: 7px; text-align:left;">For more information please view our <a id='helpURL' href="https://raw.github.com/esri/WMSMultiDimensionalEsriViewer/master/doc/VisMultiDimWMS.pdf">help</a>.</div>			    
+			    <input id='wmsTextInput' type="text" style="width: 95%" name="wmsTextInput" value="http://sampleserver6.arcgisonline.com/arcgis/services/MultiDimensional_Sample/MapServer/WMSServer">
 			    <button type='button' onclick="loadWMS()" style="margin:7px;">Load WMS Layers</button>
 			    <div id='layerSelector'  style="visibility: hidden">
 			   		<div id='radioButtonGroup' align="left" style="margin:5px 30px 5px 110px;max-height:150px;overflow:auto;"></div>
