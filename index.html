@@ -75,17 +75,22 @@ dojo.addOnLoad(init);
 
 <!-- Map Section -->
 <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"' style='padding:0px'>
-    <div id="BasemapToggle"></div>	    
+    <div id="BasemapToggle"></div>	 
+
+	<div id="timePanel" class="panel_content" data-dojo-type="dijit.layout.ContentPane" style="position:absolute;left:450px; top:25px;z-Index:999;height:25px">
+		<div id="time" style="position:center; height:25px" ></div>
+	</div>
+	
 	<div style="position:absolute; right:110px; top:20px; z-Index:997;">
           <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Animation', closable:false,  open:false" onShow="animationShow()" onHide="animationHide()">
-            <div data-dojo-type="dijit/layout/ContentPane" style="width:250px; height:30px; overflow:auto;">
-            	<button id="animPlayBtn" style="margin: -2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationPlay();" ><img src="./images/Button-Play-16.png"/></button>
+            <div data-dojo-type="dijit/layout/ContentPane" style="width:100px; height:30px; overflow:auto;">
+            	<button id="animPlayBtn" style="margin: 1px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationPlay();" ><img src="./images/Button-Play-16.png"/></button>
             	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animPlayBtn'">Animate</span></div>
-            	<button id="animBackwordBtn" style="margin: 2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoBackward();" ><img src="./images/Button-Prev-16.png"/></button>
+            	<button id="animBackwordBtn" style="margin: 1px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoBackward();" ><img src="./images/Button-Prev-16.png"/></button>
             	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animBackwordBtn'">Previous Event</span></div>
             	<!--button id="animBackwordBtn" style="margin: 2px;width: 30px;height: 28px;background:url(./images/Button-Previous-25.png) no-repeat;"></button-->
-            	<label id="animationDateTimeLabel">Thu Dec 31 2009</label>
-            	<button id="animForwardBtn" style="margin: 2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoForward();" ><img src="./images/Button-Next-16.png"/></button>
+            	<!--label id="animationDateTimeLabel">Thu Dec 31 2009</label-->
+            	<button id="animForwardBtn" style="margin: -2px;width: 30px;cursor:pointer;"   onmouseover="dijit.Tooltip.defaultPosition=['above', 'below']" onclick="animationGoForward();" ><img src="./images/Button-Next-16.png"/></button>
             	<div class="dijitHidden"><span data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'animForwardBtn'">Next Event</span></div>
         	</div>
           </div>
