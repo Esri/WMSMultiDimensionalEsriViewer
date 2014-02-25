@@ -1,7 +1,7 @@
 # WMS Multi Dimensional Esri Viewer
 This application provides the ability to view a multidimensional WMS service within an Esri Web Map. As of ArcGIS for Server 10.2.1, Esri supports multidimensional WMS services. This web mapping application allows you to explore the dimension slices of the Multidimensional WMS service. Since this application is using WMS, the application supports WMS services coming from servers other than Esri. For example this application works with Threads WMS services such as this  [one](http://ecowatch.ncddc.noaa.gov/thredds/wms/ncom_amseas_agg/AmSeas_Apr_05_2013_to_Current_best.ncd?service=WMS&version=1.3.0&request=GetCapabilities) 
 
-[View it live](http://dtc-sci01.esri.com/MultiDimWMSViewer/)
+[View it live](http://sampleserver6.arcgisonline.com/WMSMultiDimensionalEsriViewer/)
 
 ![App](https://raw.github.com/kevinsigwart/WMSMultiDimensionalEsriViewer/master/doc/nDim.gif)
 
