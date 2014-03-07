@@ -3,7 +3,9 @@ This application provides the ability to view a multidimensional WMS service wit
 
 [View it live](http://sampleserver6.arcgisonline.com/WMSMultiDimensionalEsriViewer/)
 
-![App](https://raw.github.com/kevinsigwart/WMSMultiDimensionalEsriViewer/master/doc/nDim.gif)
+![App](doc/nDim.gif)
+
+I have added an example proxy for .NET.  For more information on using proxy's please refer to the developer help [site](https://developers.arcgis.com/javascript/jshelp/ags_proxy.html).
 
 ## Features
 Users have the ability to view each time/dimension step within a multi-dimensional WMS Service
@@ -41,6 +43,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-A copy of the license is available in the repository's [license.txt](https://raw.github.com/kevinsigwart/WMSMultiDimensionalEsriViewer/master/license.txt) file.
+A copy of the license is available in the repository's [license.txt](license.txt) file.
 
 [](Esri Language: JavaScript)
