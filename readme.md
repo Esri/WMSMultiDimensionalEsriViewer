@@ -3,7 +3,7 @@ This application provides the ability to view a multidimensional WMS service wit
 
 [View it live](http://sampleserver6.arcgisonline.com/WMSMultiDimensionalEsriViewer/)
 
-![App](WMSMultiDimensionalEsriViewer/master/doc/nDim.gif)
+![App](master/doc/nDim.gif)
 
 I have added an example proxy for .NET.  For more information on using proxy's please refer to the developer help [site](https://developers.arcgis.com/javascript/jshelp/ags_proxy.html).
 
